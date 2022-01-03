@@ -1,5 +1,5 @@
 #include <vector>
-#include <set>
+#include <unordered_set>
 #include <cassert>
 #include <algorithm>
 
@@ -9,7 +9,7 @@
 const int INF = 1'000'000'000;
 
 
-bool is_vertex_cover(const WeightedGraph& wg, const std::set<int>& vertex_cover) {
+bool is_vertex_cover(const WeightedGraph& wg, const std::unordered_set<int>& vertex_cover) {
     for (int v1 = 0; v1 < wg.vertex_number; ++v1) {
         for (unsigned j = 0; j < wg.edges[v1].size(); ++j) {
             int v2 = wg.edges[v1][j];
@@ -23,7 +23,7 @@ bool is_vertex_cover(const WeightedGraph& wg, const std::set<int>& vertex_cover)
 }
 
 
-int get_total_weight(const WeightedGraph& wg, const std::set<int>& vertex_cover) {
+int get_total_weight(const WeightedGraph& wg, const std::unordered_set<int>& vertex_cover) {
     int total_weight = 0;
     for (int v: vertex_cover) {
         total_weight += wg.weights[v];
@@ -32,12 +32,12 @@ int get_total_weight(const WeightedGraph& wg, const std::set<int>& vertex_cover)
 }
 
 
-std::set<int> get_weighted_vertex_cover_exact(const WeightedGraph& wg) {
+std::unordered_set<int> get_weighted_vertex_cover_exact(const WeightedGraph& wg) {
     // Iterating through all vertex subsets
     int best_total_weight = INF;
-    std::set<int> answer;
+    std::unordered_set<int> answer;
     for (int i = 0; i < 1 << wg.vertex_number; ++i) {
-        std::set<int> potential_vertex_cover;
+        std::unordered_set<int> potential_vertex_cover;
         for (int v = 0; v < wg.vertex_number; ++v) {
             if ((i & (1 << v)) != 0) {
                 potential_vertex_cover.insert(v);
@@ -58,9 +58,9 @@ std::set<int> get_weighted_vertex_cover_exact(const WeightedGraph& wg) {
 }
 
 
-std::set<int> get_weighted_vertex_cover_approximation(const WeightedGraph& wg) {
+std::unordered_set<int> get_weighted_vertex_cover_approximation(const WeightedGraph& wg) {
     std::vector<int> paid_weights(wg.vertex_number);
-    std::set<int> answer;
+    std::unordered_set<int> answer;
 
     for (int v1 = 0; v1 < wg.vertex_number; ++v1) {
         for (unsigned j = 0; j < wg.edges[v1].size(); ++j) {

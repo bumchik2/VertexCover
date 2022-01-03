@@ -3,16 +3,15 @@
 #include <vector>
 #include <iostream>
 #include <set>
+#include <unordered_set>
 
 
 template<typename T>
 std::ostream& operator << (std::ostream& out, const std::vector<T>& v) {
-    bool first = true;
-    for (int i = 0; i < v.size(); ++i) {
+    for (unsigned i = 0; i < v.size(); ++i) {
         if (i != 0) {
             out << ", ";
         }
-        first = false;
         out << v[i];
     }
     return out;
@@ -21,6 +20,20 @@ std::ostream& operator << (std::ostream& out, const std::vector<T>& v) {
 
 template<typename T>
 std::ostream& operator << (std::ostream& out, const std::set<T>& v) {
+    bool first = true;
+    for (const T& element: v) {
+        if (!first) {
+            out << ", ";
+        }
+        first = false;
+        out << element;
+    }
+    return out;
+}
+
+
+template<typename T>
+std::ostream& operator << (std::ostream& out, const std::unordered_set<T>& v) {
     bool first = true;
     for (const T& element: v) {
         if (!first) {
